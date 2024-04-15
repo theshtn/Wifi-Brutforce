@@ -15,5 +15,5 @@ python -m venv venv
 .\venv\Scripts\activate
 ```
 3. Установите зависимости: ``pip install -r requirements.txt``
-4. Запустите скрипт: ``./main.py``
+4. Запустите скрипт: ``python main.py``
 5. Готово!
