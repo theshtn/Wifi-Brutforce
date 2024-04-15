@@ -7,7 +7,7 @@ from time import sleep
 from tqdm import trange
 
 wifi = pywifi.PyWiFi()
-iface = wifi.interfaces()[1] # Для внешней сетевой карты. При отсутствии заменить на 0
+iface = wifi.interfaces()[0] # Для внешней сетевой карты использовать значение 1
 
 def clear (): # Очистка терминала
     if platform.system().startswith("Win" or "win"):
