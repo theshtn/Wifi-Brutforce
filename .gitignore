@@ -1,2 +1,5 @@
+build/
+dist/
 venv/
 ShtnPy.code-workspace
+*.spec
