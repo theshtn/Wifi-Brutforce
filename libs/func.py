@@ -21,7 +21,7 @@ def netcheck(): # Проверка сетевой карты
     iface.disconnect()
 
     print(tcolors.PROC + '[~] Проверка состояния сетевой карты....' + tcolors.END)
-    sleep(0.3)
+    sleep(0.2)
     if iface.status() not in [pywifi.const.IFACE_DISCONNECTED, pywifi.const.IFACE_INACTIVE]:
         print(tcolors.ERROR + "Что-то пошло не так. Проверьте работоспособность сетевой карты" + \
               tcolors.END)
