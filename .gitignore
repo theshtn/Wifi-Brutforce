@@ -1,6 +1,7 @@
 build/
 dist/
 venv/
-ShtnPy.code-workspace
-libs/__pycache__
+libs/
+*.code-workspace
 *.spec
+*.cpython-312.pyc
