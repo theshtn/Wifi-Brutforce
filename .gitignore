@@ -2,5 +2,5 @@ build/
 dist/
 venv/
 ShtnPy.code-workspace
-libs/__pycache__/
+libs/__pycache__
 *.spec
