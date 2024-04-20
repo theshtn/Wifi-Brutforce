@@ -1,4 +1,4 @@
-import libs.func 
+import libs.func
 from libs.TFormat import tcolors
 from libs.brutforce import brutforce
 from time import sleep

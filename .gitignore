@@ -6,3 +6,4 @@ venv/
 *.code-workspace
 *.spec
 *.cpython-312.pyc
+*.db
