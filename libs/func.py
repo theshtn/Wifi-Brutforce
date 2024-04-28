@@ -1,19 +1,17 @@
-from os import system
+import platform, pywifi, os
 from libs.TFormat import tcolors
-import platform
-import pywifi
 from prettytable import PrettyTable
 from time import sleep
 from tqdm import trange
 
 wifi = pywifi.PyWiFi()
-iface = wifi.interfaces()[0] # Для внешней сетевой карты использовать значение 1
+iface = wifi.interfaces()[1] # Для внешней сетевой карты использовать значение 1
 
 def clear (): # Очистка терминала
     if platform.system().startswith("Win" or "win"):
-        system("cls")
+        os.system("cls")
     else:
-        system("clear")
+        os.system("clear")
 
 def netcheck(): # Проверка сетевой карты
     global iface
@@ -28,7 +26,7 @@ def netcheck(): # Проверка сетевой карты
         exit()
     else: print(tcolors.SUCCESS + "[+] Сетевая карта работает корректно" + tcolors.END)
 
-def netscan():
+def netscan(): # Сканирование сетей
     global iface
 
     clear()
@@ -68,3 +66,24 @@ def tableout(network_list): # Вывод сетей в таблицу
 
     print(table)
     return t_data
+
+def checkfiles(): 
+    if os.path.exists("files") == False:
+        os.mkdir("files")
+        tmp = open("files\\hacked.db", "w").close()
+        print(tcolors.USER + "[*] Была создана отсутствующая папка files" + \
+              "\n[*] Была создана база данных для хранения паролей files\hacked.db" + tcolors.END)
+        print(tcolors.ERROR + "\nНеобходимо добавить словарь паролей (files\words.txt)" +\
+              tcolors.END)
+        sleep(5)
+        return 0
+    elif os.path.isfile("files\\words.txt") == False:
+        print(tcolors.ERROR + "[-] Отсутствует словарь паролей (files\words.txt)" + tcolors.END)
+        sleep(5)
+        return 0
+    elif os.path.isfile("files\\hacked.db") == False:
+        tmp = open("files\\hacked.db", "w").close()
+        print(tcolors.USER + "[*] Была создана база данных для хранения паролей files\hacked.db" +\
+              tcolors.END)
+        return 1
+    else: return 1

